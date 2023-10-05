@@ -2,14 +2,10 @@ import React, { useState } from 'react'
 import './WeatherApp.css'
 
 import search_icon from '../Assets/search.png';
-import cloud_icon from '../Assets/cloud.png';
 import humidity_icon from '../Assets/humidity.png';
-
-import clear_icon from '../Assets/clear.png';
-import drizzle_icon from '../Assets/drizzle.png';
-import rain_icon from '../Assets/rain.png';
-import snow_icon from '../Assets/snow.png';
 import wind_icon from '../Assets/wind.png';
+
+import snow_icon from '../Assets/snow.png';
 import im_01d from '../Assets/01d.png';
 import im_01n from '../Assets/01n.png';
 import im_02d from '../Assets/02d.png';
@@ -29,6 +25,7 @@ const config = require('./config.json');
 const WeatherApp = () => {
   const apiKey = config.apiKey;
   const[wicon,setWicon] =useState(im_02d);
+  const[daynight, setDaynight]=useState("container-day");
 
   const search =async()=> {
     const element =document.getElementsByClassName("cityInput");
@@ -110,12 +107,17 @@ const WeatherApp = () => {
     }
     else
     {
-      setWicon(clear_icon);
+      setWicon(im_02d);
     }
+
+    if (data.weather[0].icon.substring(2,3) === "d")
+    {setDaynight("container-day");}
+    else 
+    {setDaynight("container-night");}
 
   }
   return (
-    <div className='container'>
+    <div className={daynight}>
       <div className="top-bar">
         <input type="text" className="cityInput" placeholder="search"/>
         <div className="search-icon" onClick={()=>search()}>

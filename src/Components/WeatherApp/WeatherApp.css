@@ -1,10 +1,22 @@
-.container{
+
+.container-day{
+    width: 607px;
+    height: 829px;
+    margin: auto;
+    margin-top: 75px;
+    border-radius: 12px;
+    background-image: linear-gradient(180deg, #cdedf0 0%, #6ddde6 100%);
+    color: rgb(54, 54, 54)
+}
+
+.container-night{
     width: 607px;
     height: 829px;
     margin: auto;
     margin-top: 75px;
     border-radius: 12px;
     background-image: linear-gradient(180deg, #130754 0%, #3b2f80 100%);
+    color: white
 }
 
 .top-bar{
@@ -48,7 +60,7 @@
 .weather-temp{
     display: flex;
     justify-content: center;
-    color: white;
+    
     font-size: 120px;
     font-weight: 400;
 }
@@ -56,14 +68,14 @@
 .weather-location{
     display: flex;
     justify-content: center;
-    color: white;
+    
     font-size: 60px;
     font-weight: 400;
 }
 
 .data-container{
     margin-top: 50px;
-    color: white;
+    
     display: flex;
     justify-content:  center;
 }
