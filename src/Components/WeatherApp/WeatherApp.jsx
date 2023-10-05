@@ -5,26 +5,32 @@ import search_icon from '../Assets/search.png';
 import humidity_icon from '../Assets/humidity.png';
 import wind_icon from '../Assets/wind.png';
 
-import snow_icon from '../Assets/snow.png';
-import im_01d from '../Assets/01d.png';
-import im_01n from '../Assets/01n.png';
-import im_02d from '../Assets/02d.png';
-import im_02n from '../Assets/02n.png';
-import im_03d from '../Assets/03d.png';
-import im_03n from '../Assets/03n.png';
-import im_04d from '../Assets/04d.png';
-import im_04n from '../Assets/04n.png';
-import im_09d from '../Assets/09d.png';
-import im_09n from '../Assets/09n.png';
-import im_10d from '../Assets/10d.png';
-import im_10n from '../Assets/10n.png';
-import im_11 from '../Assets/11.png';
-import im_50 from '../Assets/50.png';
 const config = require('./config.json');
+const weatherIcons = {
+  "01d": require('../Assets/01d.png'),
+  "01n": require('../Assets/01n.png'),
+  "02d": require('../Assets/02d.png'),
+  "02n": require('../Assets/02n.png'),
+  "03d": require('../Assets/03d.png'),
+  "03n": require('../Assets/03n.png'),
+  "04d": require('../Assets/04d.png'),
+  "04n": require('../Assets/04n.png'),
+  "09d": require('../Assets/09d.png'),
+  "09n": require('../Assets/09n.png'),
+  "10d": require('../Assets/10d.png'),
+  "10n": require('../Assets/10n.png'),
+  "11d": require('../Assets/11.png'),
+  "50d": require('../Assets/50.png'),
+  "11n": require('../Assets/11.png'),
+  "50n": require('../Assets/50.png'),
+  "13d": require('../Assets/snow.png'),
+  "13n": require('../Assets/snow.png'),
+};
+
 
 const WeatherApp = () => {
   const apiKey = config.apiKey;
-  const[wicon,setWicon] =useState(im_02d);
+  const[wicon,setWicon] =useState(weatherIcons["02d"]);
   const[daynight, setDaynight]=useState("container-day");
 
   const search =async()=> {
@@ -45,71 +51,11 @@ const WeatherApp = () => {
     temperature[0].innerHTML = Math.floor(data.main.temp)+" °C";
     location[0].innerHTML = data.name;
 
-    if (data.weather[0].icon==="01d")
-    {
-      setWicon(im_01d);
+    const setWeatherInfo = (data) =>{
+      const iconCode=data.weather[0].icon;
+      setWicon(weatherIcons[iconCode] || weatherIcons["02d"]);
     }
-    else if (data.weather[0].icon==="01n")
-    {
-      setWicon(im_01n);
-    }
-    else if (data.weather[0].icon==="02d")
-    {
-      setWicon(im_02d);
-    }
-    else if (data.weather[0].icon==="02n")
-    {
-      setWicon(im_02n);
-    }
-    else if (data.weather[0].icon==="03d")
-    {
-      setWicon(im_03d);
-    }
-    else if (data.weather[0].icon==="03n")
-    {
-      setWicon(im_03n);
-    }
-    else if (data.weather[0].icon==="04d")
-    {
-      setWicon(im_04d);
-    }
-    else if (data.weather[0].icon==="04n")
-    {
-      setWicon(im_04n);
-    }
-    else if (data.weather[0].icon==="09d")
-    {
-      setWicon(im_09d);
-    }
-    else if (data.weather[0].icon==="09n")
-    {
-      setWicon(im_09n);
-    }
-    else if (data.weather[0].icon==="10d")
-    {
-      setWicon(im_10d);
-    }
-    else if (data.weather[0].icon==="10n")
-    {
-      setWicon(im_10n);
-    }
-    else if (data.weather[0].icon==="11d" || data.weather[0].icon==="11n")
-    {
-      setWicon(im_11);
-    }
-    else if (data.weather[0].icon==="13d" || data.weather[0].icon==="13n")
-    {
-      setWicon(snow_icon);
-    }
-    else if (data.weather[0].icon==="50d" || data.weather[0].icon==="50n")
-    {
-      setWicon(im_50);
-    }
-    else
-    {
-      setWicon(im_02d);
-    }
-
+    setWeatherInfo(data)
     if (data.weather[0].icon.substring(2,3) === "d")
     {setDaynight("container-day");}
     else 
