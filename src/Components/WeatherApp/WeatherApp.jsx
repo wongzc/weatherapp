@@ -32,6 +32,8 @@ const WeatherApp = () => {
   const apiKey = config.apiKey;
   const[wicon,setWicon] =useState(weatherIcons["02d"]);
   const[daynight, setDaynight]=useState("container-day");
+  const [humidity, setHumidity] = useState("64 %");
+  
 
   const search =async()=> {
     const element =document.getElementsByClassName("cityInput");
@@ -41,16 +43,17 @@ const WeatherApp = () => {
 
     let response = await fetch(url);
     let data = await response.json();
-    const humidity =document.getElementsByClassName("humidity-percent");
+    
     const wind =document.getElementsByClassName("wind-rate");
     const temperature =document.getElementsByClassName("weather-temp");
     const location =document.getElementsByClassName("weather-location");
 
-    humidity[0].innerHTML = data.main.humidity+" %";
+    
     wind[0].innerHTML = Math.floor(data.wind.speed)+" km";
     temperature[0].innerHTML = Math.floor(data.main.temp)+" °C";
     location[0].innerHTML = data.name;
 
+    setHumidity(`${data.main.humidity} %`);
     const setWeatherInfo = (data) =>{
       const iconCode=data.weather[0].icon;
       setWicon(weatherIcons[iconCode] || weatherIcons["02d"]);
@@ -79,7 +82,7 @@ const WeatherApp = () => {
         <div className="element">
             <img src={humidity_icon} alt="" className="icon"/>
             <div className="data">
-                <div className="humidity-percent">64 %</div>
+                <div className="humidity-percent">{humidity}</div>
                 <div className="text">Humidity</div>
             </div>
         </div>
