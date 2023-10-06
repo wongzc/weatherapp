@@ -33,6 +33,9 @@ const WeatherApp = () => {
   const[wicon,setWicon] =useState(weatherIcons["02d"]);
   const[daynight, setDaynight]=useState("container-day");
   const [humidity, setHumidity] = useState("64 %");
+  const [windSpeed, setWindSpeed] = useState("18 km/h");
+  const [temperature, setTemperature] = useState("24 °C");
+  const [location, setLocation] = useState("London");
   
 
   const search =async()=> {
@@ -43,17 +46,12 @@ const WeatherApp = () => {
 
     let response = await fetch(url);
     let data = await response.json();
-    
-    const wind =document.getElementsByClassName("wind-rate");
-    const temperature =document.getElementsByClassName("weather-temp");
-    const location =document.getElementsByClassName("weather-location");
-
-    
-    wind[0].innerHTML = Math.floor(data.wind.speed)+" km";
-    temperature[0].innerHTML = Math.floor(data.main.temp)+" °C";
-    location[0].innerHTML = data.name;
 
     setHumidity(`${data.main.humidity} %`);
+    setWindSpeed(`${Math.floor(data.wind.speed)} km`);
+    setTemperature(`${Math.floor(data.main.temp)} °C`);
+    setLocation(data.name);
+
     const setWeatherInfo = (data) =>{
       const iconCode=data.weather[0].icon;
       setWicon(weatherIcons[iconCode] || weatherIcons["02d"]);
@@ -76,8 +74,8 @@ const WeatherApp = () => {
       <div className="weather-image">
         <img src={wicon} alt="" className="icon-weather"/>
       </div>
-      <div className="weather-temp">24 °C</div>
-      <div className="weather-location">London</div>
+      <div className="weather-temp">{temperature}</div>
+      <div className="weather-location">{location}</div>
       <div className="data-container">
         <div className="element">
             <img src={humidity_icon} alt="" className="icon"/>
@@ -89,7 +87,7 @@ const WeatherApp = () => {
         <div className="element">
             <img src={wind_icon} alt="" className="icon"/>
             <div className="data">
-                <div className="wind-rate">18 km/h</div>
+                <div className="wind-rate">{windSpeed}</div>
                 <div className="text">Wind Speed</div>
             </div>
         </div>
