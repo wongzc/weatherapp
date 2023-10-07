@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import './WeatherApp.css'
+import React, { useState } from 'react';
+import './WeatherApp.css';
 
 import search_icon from '../Assets/search.png';
 import humidity_icon from '../Assets/humidity.png';
 import humidity_d_icon from '../Assets/humidity_d.png';
 import wind_icon from '../Assets/wind.png';
 import wind_d_icon from '../Assets/wind_d.png';
+import other_icon from '../Assets/other.png';
 
 const config = require('./config.json');
 const weatherIcons = {
@@ -33,16 +34,17 @@ const weatherIcons = {
 const WeatherApp = () => {
   const apiKey = config.apiKey;
   const [wicon,setWicon] = useState(weatherIcons["02d"]);
-  const [daynight, setDaynight]= useState("container-day");
+  const [daynight, setDaynight]= useState("container day");
   const [humidity, setHumidity] = useState("64 %");
   const [windSpeed, setWindSpeed] = useState("18 km/h");
   const [temperature, setTemperature] = useState("24 °C");
   const [location, setLocation] = useState("London");
+  const [weather, setWeather] = useState("Cloud");
   const [error, setError] = useState(null);
   const [windicon, setWindicon] = useState(wind_d_icon);
   const [humidityicon, setHumidityicon] = useState(humidity_d_icon);
   
-
+    
   const search =async()=> {
     const element =document.getElementsByClassName("cityInput");
     if(element[0].value==="")
@@ -57,6 +59,7 @@ const WeatherApp = () => {
     setHumidity(`${data.main.humidity} %`);
     setWindSpeed(`${Math.floor(data.wind.speed)} km`);
     setTemperature(`${Math.floor(data.main.temp)} °C`);
+    setWeather(data.weather[0].main);
     setLocation(data.name);
     setWeatherInfo(data);
     setError(null);
@@ -68,8 +71,13 @@ const WeatherApp = () => {
   const setWeatherInfo = (data) =>{
     const iconCode=data.weather[0].icon;
     const isDay = iconCode.endsWith("d");
+    const checkHaze = data.weather[0].main;
     setWicon(weatherIcons[iconCode] || weatherIcons["02d"]);
-    setDaynight(isDay ? "container-day" : "container-night");
+    if (checkHaze === "Haze"){
+      setDaynight("container haze");
+    } else {
+      setDaynight(isDay ? "container day" : "container night");
+    }
     setWindicon(isDay ? wind_d_icon: wind_icon);
     setHumidityicon(isDay ? humidity_d_icon: humidity_icon);
   }
@@ -77,18 +85,22 @@ const WeatherApp = () => {
     <div className={daynight}>
       <div className="top-bar">
         <input type="text" className="cityInput" placeholder="search"/>
-        <div className="search-icon" onClick={()=>search()}>
+        <div className="search-icon" onClick={()=>search()} title="Search">
             <img src={search_icon} alt="" />
+        </div>
+        <div className="search-icon" title="Other Country">
+            <img src={other_icon} alt="" />
         </div>
       </div>
       <div className="weather-image">
-        <img src={wicon} alt="" className="icon-weather"/>
+        <img src={wicon} alt="" className="icon-weather" title=""/>
       </div>
       <div className="weather-temp">{temperature}</div>
+      <div className="weather-desc">{weather}</div>
       <div className="weather-location">{location}</div>
       <div className="data-container">
         <div className="element">
-            <img src={humidityicon} alt="" className="icon"/>
+            <img src={humidityicon} alt="" className="icon" />
             <div className="data">
                 <div className="humidity-percent">{humidity}</div>
                 <div className="text">Humidity</div>
