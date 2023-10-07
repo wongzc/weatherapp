@@ -3,7 +3,9 @@ import './WeatherApp.css'
 
 import search_icon from '../Assets/search.png';
 import humidity_icon from '../Assets/humidity.png';
+import humidity_d_icon from '../Assets/humidity_d.png';
 import wind_icon from '../Assets/wind.png';
+import wind_d_icon from '../Assets/wind_d.png';
 
 const config = require('./config.json');
 const weatherIcons = {
@@ -37,6 +39,8 @@ const WeatherApp = () => {
   const [temperature, setTemperature] = useState("24 °C");
   const [location, setLocation] = useState("London");
   const [error, setError] = useState(null);
+  const [windicon, setWindicon] = useState(wind_d_icon);
+  const [humidityicon, setHumidityicon] = useState(humidity_d_icon);
   
 
   const search =async()=> {
@@ -66,6 +70,8 @@ const WeatherApp = () => {
     const isDay = iconCode.endsWith("d");
     setWicon(weatherIcons[iconCode] || weatherIcons["02d"]);
     setDaynight(isDay ? "container-day" : "container-night");
+    setWindicon(isDay ? wind_d_icon: wind_icon);
+    setHumidityicon(isDay ? humidity_d_icon: humidity_icon);
   }
   return (
     <div className={daynight}>
@@ -82,14 +88,14 @@ const WeatherApp = () => {
       <div className="weather-location">{location}</div>
       <div className="data-container">
         <div className="element">
-            <img src={humidity_icon} alt="" className="icon"/>
+            <img src={humidityicon} alt="" className="icon"/>
             <div className="data">
                 <div className="humidity-percent">{humidity}</div>
                 <div className="text">Humidity</div>
             </div>
         </div>
         <div className="element">
-            <img src={wind_icon} alt="" className="icon"/>
+            <img src={windicon} alt="" className="icon"/>
             <div className="data">
                 <div className="wind-rate">{windSpeed}</div>
                 <div className="text">Wind Speed</div>
