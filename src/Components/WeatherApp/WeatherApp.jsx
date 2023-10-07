@@ -30,8 +30,8 @@ const weatherIcons = {
 
 const WeatherApp = () => {
   const apiKey = config.apiKey;
-  const[wicon,setWicon] =useState(weatherIcons["02d"]);
-  const[daynight, setDaynight]=useState("container-day");
+  const [wicon,setWicon] = useState(weatherIcons["02d"]);
+  const [daynight, setDaynight]= useState("container-day");
   const [humidity, setHumidity] = useState("64 %");
   const [windSpeed, setWindSpeed] = useState("18 km/h");
   const [temperature, setTemperature] = useState("24 °C");
@@ -41,7 +41,10 @@ const WeatherApp = () => {
   const search =async()=> {
     const element =document.getElementsByClassName("cityInput");
     if(element[0].value==="")
-    {return 0;}
+    {
+      return;
+    }
+    
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${element[0].value}&units=Metric&appid=${apiKey}`;
 
     let response = await fetch(url);
@@ -51,17 +54,14 @@ const WeatherApp = () => {
     setWindSpeed(`${Math.floor(data.wind.speed)} km`);
     setTemperature(`${Math.floor(data.main.temp)} °C`);
     setLocation(data.name);
+    setWeatherInfo(data);
 
-    const setWeatherInfo = (data) =>{
-      const iconCode=data.weather[0].icon;
-      setWicon(weatherIcons[iconCode] || weatherIcons["02d"]);
-    }
-    setWeatherInfo(data)
-    if (data.weather[0].icon.substring(2,3) === "d")
-    {setDaynight("container-day");}
-    else 
-    {setDaynight("container-night");}
-
+  }
+  const setWeatherInfo = (data) =>{
+    const iconCode=data.weather[0].icon;
+    const isDay = iconCode.endsWith("d");
+    setWicon(weatherIcons[iconCode] || weatherIcons["02d"]);
+    setDaynight(isDay ? "container-day" : "container-night");
   }
   return (
     <div className={daynight}>
