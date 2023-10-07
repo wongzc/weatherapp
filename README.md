@@ -1,5 +1,8 @@
 # created with react.js
 using API from https://openweathermap.org, image created by Freepik from https://www.flaticon.com/ 
 
-![image](https://github.com/wongzc/weatherapp/assets/52870701/28bc0fc0-2fb3-499d-b85b-1acfc5ccb449) ![image](https://github.com/wongzc/weatherapp/assets/52870701/5ac14489-b9f1-4c5a-9def-68ab5589e671)
+![image](https://github.com/wongzc/weatherapp/assets/52870701/c31fd6de-43e2-426d-a04b-a12574c141ac) ![image](https://github.com/wongzc/weatherapp/assets/52870701/93f9c722-ba65-4013-b5dd-483116134301)![image](https://github.com/wongzc/weatherapp/assets/52870701/a68c2d20-5f38-48e0-a9a8-d9240ae8e4cf)
+
+
+
 
