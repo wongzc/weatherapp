@@ -36,6 +36,7 @@ const WeatherApp = () => {
   const [windSpeed, setWindSpeed] = useState("18 km/h");
   const [temperature, setTemperature] = useState("24 °C");
   const [location, setLocation] = useState("London");
+  const [error, setError] = useState(null);
   
 
   const search =async()=> {
@@ -44,9 +45,8 @@ const WeatherApp = () => {
     {
       return;
     }
-    
+    try {
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${element[0].value}&units=Metric&appid=${apiKey}`;
-
     let response = await fetch(url);
     let data = await response.json();
 
@@ -55,7 +55,11 @@ const WeatherApp = () => {
     setTemperature(`${Math.floor(data.main.temp)} °C`);
     setLocation(data.name);
     setWeatherInfo(data);
-
+    setError(null);
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    setError('Error fetching weather data. Please try again!');
+  }
   }
   const setWeatherInfo = (data) =>{
     const iconCode=data.weather[0].icon;
@@ -92,8 +96,9 @@ const WeatherApp = () => {
             </div>
         </div>
       </div>
+      {error && <div className="error-message">{error}</div>}
     </div>
-  )
-}
+  );
+};
 
 export default WeatherApp
